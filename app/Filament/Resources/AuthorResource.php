@@ -2,40 +2,37 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\AuthorResource\Pages;
+use App\Filament\Resources\AuthorResource\RelationManagers;
+use App\Models\Author;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
 
-class CategoryResource extends Resource
+class AuthorResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Author::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                //
                 Forms\Components\TextInput::make('name')
                 ->required()
-                // ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                // ->live(debounce: 250)
-                ->maxLength(255),
+                ->maxLength(30),
 
-                // Forms\Components\TextInput::make('slug')
-                // ->required()
-                // ->disabled(),
+                Forms\Components\TextInput::make('occupation')
+                ->required()
+                ->maxLength(30),
 
-                Forms\Components\FileUpload::make('icon')
+                Forms\Components\FileUpload::make('avatar')
                 ->image()
                 ->required(),
 
@@ -46,10 +43,10 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                //
                 Tables\Columns\TextColumn::make('name')
                 ->searchable(),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\ImageColumn::make('icon')
+                Tables\Columns\ImageColumn::make('avatar')
             ])
             ->filters([
                 //
@@ -74,9 +71,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListAuthors::route('/'),
+            'create' => Pages\CreateAuthor::route('/create'),
+            'edit' => Pages\EditAuthor::route('/{record}/edit'),
         ];
     }
 }
