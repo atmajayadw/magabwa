@@ -51,4 +51,26 @@ class FrontController extends Controller
 
         return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads', 'entertainment_articles', 'entertainment__featured_articles'));
     }
+
+    public function category(Category $category){
+        $categories = Category::all();
+
+        $articles = ArticleNews::with(['category'])
+        ->latest()
+        ->get();
+
+        return view('front.category', compact('category', 'categories', 'articles'));
+    }
+
+    public function author(Author $author){
+        $authors = Author::all();
+
+        $articles = ArticleNews::with(['author'])
+        ->latest()
+        ->get();
+
+        $categories = Category::all();
+
+        return view('front.author', compact('authors', 'author','articles', 'categories'));
+    }
 }
