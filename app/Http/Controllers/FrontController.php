@@ -73,4 +73,22 @@ class FrontController extends Controller
 
         return view('front.author', compact('authors', 'author','articles', 'categories'));
     }
+
+    public function search(Request $request){
+                //
+        $request->validate([
+            'keyword' => ['required', 'string', 'max:255']
+        ]);
+
+        $categories = Category::all();
+
+        $keyword = $request->keyword;
+
+        $articles = ArticleNews::with(['author', 'category'])
+        ->where('name', 'like', '%' . $keyword . '%' )->paginate(6);
+
+        return view('front.search', compact('articles', 'keyword', 'categories'));
+        
+    }
+
 }
