@@ -91,4 +91,45 @@ class FrontController extends Controller
         
     }
 
+    public function details(ArticleNews $articleNews){
+        $categories = Category::all();
+
+        $articles = ArticleNews::with(['category'])
+        ->where('is_featured', 'not_featured')
+        ->where('id', '!=', $articleNews->id)
+        ->latest()
+        ->take(3)
+        ->get();
+
+        $author_news = ArticleNews::where('author_id', $articleNews->author_id)
+        ->where('id', '!=', $articleNews->id)
+        ->latest()
+        ->take(3)
+        ->get();
+
+        $bannersquare = BannerAdvertisement::where('is_active', 'active')
+        ->where('type', 'square')
+        ->inRandomOrder()
+        ->take(2)
+        ->get();
+
+        //supaya iklan gak sama
+        if($bannersquare->count() < 2){
+            $bannersquare_1 = $bannersquare->first();
+            // $bannersquare_2 = null; kalau mau tampil cuma 1
+            $bannersquare_2 = $bannersquare->first();
+
+        }else{
+            $bannersquare_1 = $bannersquare->get(0);
+            $bannersquare_2 = $bannersquare->get(1);
+        }
+
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+        ->where('type', 'banner')
+        ->inRandomOrder()
+        ->first();
+
+        return view('front.details', compact('articleNews', 'categories', 'articles', 'bannersquare', 'bannerads', 'author_news', 'bannersquare_1', 'bannersquare_2'));
+    }
+
 }

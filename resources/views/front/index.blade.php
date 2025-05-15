@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="{{ asset('output.css') }}" rel="stylesheet" />
-        <link href="{{ asset('main.css') }}" rel="stylesheet" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-            rel="stylesheet"
-        />
-        <!-- CSS -->
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/flickity@2/dist/flickity.min.css"
-        />
-    </head>
+@extends('front.master')
+@section('content')
     <body class="font-[Poppins] pb-[72px]">
         <nav
             id="Navbar"
@@ -103,7 +88,7 @@
                             <a
                                 href="{{route('front.details', $article->slug)}}"
                                 class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300"
-                                >{{$article->category->name}}</a
+                                >{{$article->name}}</a
                             >
                             <p class="text-white">{{$article->created_at->format('M d, Y')}} • {{$article->category->name}}</p>
                         </div>
@@ -824,4 +809,4 @@
         <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
         <script src="{{ asset('js/carousel.js') }}"></script>
     </body>
-</html>
+@endsection
